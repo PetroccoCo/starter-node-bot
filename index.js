@@ -1,6 +1,6 @@
 var Botkit = require('botkit')
 
-// var groupLunch = require('./groupLunch/init.js')
+var groupLunch = require('./groupLunch.js')
 
 var token = process.env.SLACK_TOKEN
 
@@ -73,6 +73,9 @@ controller.hears(['attachment'], ['direct_message', 'direct_mention'], function 
   })
 })
 
+controller.hears('groupLunch', ['direct_message', 'direct_mention'], groupLunch.test(bot, message))
+
 controller.hears('.*', ['direct_message', 'direct_mention'], function (bot, message) {
   bot.reply(message, 'Sorry <@' + message.user + '>, I don\'t understand. \n')
 })
+
