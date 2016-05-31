@@ -1,4 +1,7 @@
 var Botkit = require('botkit')
+var lunchSpots = require('./lunchlist')
+
+
 var token = process.env.SLACK_TOKEN
 
 var controller = Botkit.slackbot({
@@ -18,13 +21,13 @@ if (token) {
     }
     console.log('Connected to Slack RTM')
   })
-// Otherwise assume multi-team mode - setup beep boop resourcer connection
+  // Otherwise assume multi-team mode - setup beep boop resourcer connection
 } else {
   console.log('Starting in Beep Boop multi-team mode')
   require('beepboop-botkit').start(controller, { debug: true })
 }
 
-var webhooks = require('./webhooks').start(controller);
+var webhooks = require('./webhooks').start(controller, lunchSpots);
 
 controller.on('bot_channel_join', function (bot, message) {
   bot.reply(message, "I'm here!")
@@ -41,10 +44,10 @@ controller.hears('.*', ['mention'], function (bot, message) {
 
 controller.hears('help', ['direct_message', 'direct_mention'], function (bot, message) {
   var help = 'I will respond to the following messages: \n' +
-      '`bot hi` for a simple message.\n' +
-      '`bot attachment` to see a Slack attachment message.\n' +
-      '`@<your bot\'s name>` to demonstrate detecting a mention.\n' +
-      '`bot help` to see this again.'
+    '`bot hi` for a simple message.\n' +
+    '`bot attachment` to see a Slack attachment message.\n' +
+    '`@<your bot\'s name>` to demonstrate detecting a mention.\n' +
+    '`bot help` to see this again.'
   bot.reply(message, help)
 })
 
@@ -69,12 +72,15 @@ controller.hears(['attachment'], ['direct_message', 'direct_mention'], function 
 
 controller.hears('groupLunch', ['direct_message', 'direct_mention'], function (bot, message) {
   bot.reply(message, 'Would you like to set up a group lunch?')
-//  crontroller.hears('Yes', '.*', function (bot, message) {
-//    bot.reply(message, 'Excellent')
-//  })
+  //  crontroller.hears('Yes', '.*', function (bot, message) {
+  //    bot.reply(message, 'Excellent')
+  //  })
 })
 
 controller.hears('.*', ['direct_message', 'direct_mention'], function (bot, message) {
   bot.reply(message, 'Sorry <@' + message.user + '>, I don\'t understand. \n')
 })
 
+controller.hears('lunch', ['ambient'], function (bot, message) {
+  bot.reply(message, "Lets eat at "+lunchSpots.getLunchSpot()+"!\n")
+})
