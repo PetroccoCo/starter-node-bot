@@ -11,11 +11,12 @@ function setupWebhooks(controller, lunchSpots) {
 
     switch (message.command) {
       case '/lunch':
+        // if text ...
+        switch (message.text) {
+          case 'list':
+            return bot.replyPrivate(message, 'Here are the current options:'+lunchSpots.getLunchSpots())
+        }
         return bot.replyPrivate(message, 'boopbeep: '+lunchSpots.getLunchSpot())
-      case '/lunch list':
-        return bot.replyPrivate(message, 'Here are the current options:'+lunchSpots.getLunchSpots())
-      case '/lunch add':
-        return bot.replyPrivate(message, 'Here are the current options:'+lunchSpots.getLunchSpots())
       default:
         return bot.replyPrivate(message, "Sorry, I'm not sure what that command is")
     }
