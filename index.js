@@ -1,5 +1,4 @@
 var Botkit = require('botkit')
-
 var token = process.env.SLACK_TOKEN
 
 var controller = Botkit.slackbot({
@@ -26,12 +25,10 @@ if (token) {
   require('beepboop-botkit').start(controller, { debug: true })
 }
 
+var webhooks = require('./webhooks').start(controller);
+
 controller.on('bot_channel_join', function (bot, message) {
   bot.reply(message, "I'm here!")
-})
-
-controller.hears(['hello', 'hi'], ['direct_mention'], function (bot, message) {
-  bot.reply(message, 'Hello.')
 })
 
 controller.hears(['hello', 'hi'], ['direct_message'], function (bot, message) {
