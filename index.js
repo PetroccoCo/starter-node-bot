@@ -1,6 +1,6 @@
 var Botkit = require('botkit')
 var token = process.env.SLACK_TOKEN
-var PORT = process.env.PORT || 8080
+
 var controller = Botkit.slackbot({
   // reconnect to Slack RTM when connection goes bad
   retry: Infinity,
@@ -16,7 +16,6 @@ if (token) {
     if (err) {
       throw new Error(err)
     }
-
     console.log('Connected to Slack RTM')
   })
 // Otherwise assume multi-team mode - setup beep boop resourcer connection
@@ -25,7 +24,7 @@ if (token) {
   require('beepboop-botkit').start(controller, { debug: true })
 }
 
-var webhooks = require('./webhooks').start(controller, PORT);
+var webhooks = require('./webhooks').start(controller);
 
 controller.on('bot_channel_join', function (bot, message) {
   bot.reply(message, "I'm here!")
