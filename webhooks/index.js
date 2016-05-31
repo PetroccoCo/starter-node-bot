@@ -1,4 +1,5 @@
 var logger = require('morgan');
+var PORT = process.env.PORT
 
 exports.start = function (controller) {
 	var webhooks = {};
@@ -14,6 +15,7 @@ exports.start = function (controller) {
 	})
 
 	controller.on('slash_command', function (bot, message) {
+    console.log("slash-command found for bot:", bot, message);
 		// Validate Slack verify token
 		if (message.token !== VERIFY_TOKEN) {
 			return bot.res.send(401, 'Unauthorized')
