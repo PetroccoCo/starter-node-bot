@@ -1,5 +1,7 @@
 var Botkit = require('botkit')
 
+var groupLunch = require('./groupLunch/init.js')
+
 var token = process.env.SLACK_TOKEN
 
 var controller = Botkit.slackbot({
