@@ -1,5 +1,4 @@
 var Botkit = require('botkit')
-var webhooks = require('./webhooks')
 // var groupLunch = require('./groupLunch/init.js')
 
 var token = process.env.SLACK_TOKEN
@@ -27,6 +26,8 @@ if (token) {
   console.log('Starting in Beep Boop multi-team mode')
   require('beepboop-botkit').start(controller, { debug: true })
 }
+
+var webhooks = require('./webhooks').start(controller);
 
 controller.on('bot_channel_join', function (bot, message) {
   bot.reply(message, "I'm here!")
