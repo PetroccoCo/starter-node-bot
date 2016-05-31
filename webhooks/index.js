@@ -1,7 +1,6 @@
 var logger = require('morgan');
-var PORT = process.env.PORT
 
-exports.start = function (controller) {
+exports.start = function (controller, PORT) {
 	var webhooks = {};
 	controller.setupWebserver(PORT, function (err, webserver) {
 		if (err) {
