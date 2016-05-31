@@ -33,7 +33,7 @@ exports.getLunchSpot = function(ignoredIndexes) {
   do {
     randIndex = Math.floor(Math.random() * lunchSpots.length);
     console.log("Got index", randIndex, lunchSpots[randIndex]);
-  } while ( ignoredIndexes.includes(randIndex) )
+  } while ( _.includes(ignoredIndexes, randIndex))
   return lunchSpots[randIndex].name;
 }
 
