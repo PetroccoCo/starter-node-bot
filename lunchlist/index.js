@@ -1,4 +1,5 @@
 var _ = require('lodash')
+var fs = require('../foursquare')
 
 var lunchSpots = []
 
@@ -38,15 +39,22 @@ exports.getLunchSpot = function(ignoredIndexes) {
 }
 
 function populateLunchSpots() {
-  lunchSpots.unshift(
-    {name: "PotBelly"},
-    {name: "Ink"},
-    {name: "Noodles"},
-    {name: "Blue Sushi"},
-    {name: "Masterpiece"},
-    {name: "Smashburger"},
-    {name: "Chipotle"},
-    {name: "Illegal Pete's"}
-  );
+  fs.list(function(error, results) {
+    if (error) {
+      lunchSpots.unshift(
+        {name: "PotBelly"},
+        {name: "Ink"},
+        {name: "Noodles"},
+        {name: "Blue Sushi"},
+        {name: "Masterpiece"},
+        {name: "Smashburger"},
+        {name: "Chipotle"},
+        {name: "Illegal Pete's"}
+      );
+    } else {
+      console.log('Retrieved ' + results.length + ' restaurants from foursquare')
+      lunchSpots.unshift(results)
+    }
+  })
 }
 populateLunchSpots();
