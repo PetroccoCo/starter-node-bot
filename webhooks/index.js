@@ -14,9 +14,9 @@ function setupWebhooks(controller, lunchSpots) {
         // if text ...
         switch (message.text) {
           case 'list':
-            return bot.replyPrivate(message, 'Here are the current options:'+lunchSpots.getLunchSpots())
+            return bot.replyPrivate(message, 'Here are the current options:'+lunchSpots.getAllLunchSpotNames())
         }
-        return bot.replyPrivate(message, 'boopbeep: '+lunchSpots.getLunchSpot())
+        return bot.replyPrivate(message, 'boopbeep: '+lunchSpots.getRandLunchSpot().name)
       default:
         return bot.replyPrivate(message, "Sorry, I'm not sure what that command is")
     }

@@ -51,36 +51,45 @@ controller.hears('help', ['direct_message', 'direct_mention'], function (bot, me
   bot.reply(message, help)
 })
 
-controller.hears(['attachment'], ['direct_message', 'direct_mention'], function (bot, message) {
-  var text = 'Beep Beep Boop is a ridiculously simple hosting platform for your Slackbots.'
-  var attachments = [{
-    fallback: text,
-    pretext: 'We bring bots to life. :sunglasses: :thumbsup:',
-    title: 'Host, deploy and share your bot in seconds.',
-    image_url: 'https://storage.googleapis.com/beepboophq/_assets/bot-1.22f6fb.png',
-    title_link: 'https://beepboophq.com/',
-    text: text,
-    color: '#7CD197'
-  }]
+controller.hears('lunch', ['direct_message', 'direct_mention', 'ambient'], function (bot, message) {
+  // TODO store an array of spots we have prompted the user for
+  var triedSpots = []
+  var currentSpot =  lunchSpots.getRandLunchSpot(triedSpots)
 
-  bot.reply(message, {
-    attachments: attachments
-  }, function (err, resp) {
-    console.log(err, resp)
-  })
-})
-
-controller.hears('groupLunch', ['direct_message', 'direct_mention'], function (bot, message) {
-  bot.reply(message, 'Would you like to set up a group lunch?')
-  //  crontroller.hears('Yes', '.*', function (bot, message) {
-  //    bot.reply(message, 'Excellent')
-  //  })
-})
+  var askSpot = function(response, convo){
+    convo.ask("Let's eat at " + currentSpot.name + "!",[
+    {
+      pattern: bot.utterances.yes,
+      callback: function(response,convo) {
+        convo.say('Great! Open table integrations are coming later.');
+        convo.next();
+      }
+    },
+    {
+      pattern: bot.utterances.no,
+      callback: function(response,convo) {
+        convo.say("Hmm ok");
+        triedSpots.unshift(currentSpot.id)
+        currentSpot = lunchSpots.getRandLunchSpot(triedSpots)
+        askSpot(response, convo);
+        convo.next();
+      }
+    },
+    {
+      default: true,
+      callback: function(response,convo) {
+        convo.say("I didn't understand that...");
+        askSpot(response, convo);
+        convo.next();
+      }
+    }
+  ]);
+  };
+  bot.startConversation(message, askSpot);
+});
 
 controller.hears('.*', ['direct_message', 'direct_mention'], function (bot, message) {
   bot.reply(message, 'Sorry <@' + message.user + '>, I don\'t understand. \n')
 })
 
-controller.hears('lunch', ['ambient'], function (bot, message) {
-  bot.reply(message, "Lets eat at "+lunchSpots.getLunchSpot()+"!\n")
-})
+

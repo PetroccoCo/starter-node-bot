@@ -30,15 +30,8 @@ function searchRestaurants(params, callback) {
       callback(error)
     } else {
       var venues = data.venues
-      var list = []
-
-      for (var i = 0; i < venues.length; i++) {
-        list.push({
-          name: venues[i].name
-        })
-      }
-
-      callback(null, list)
+      console.log(venues)
+      callback(null, venues)
     }
   })
 }
