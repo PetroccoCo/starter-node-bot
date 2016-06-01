@@ -53,7 +53,7 @@ function populateLunchSpots() {
       );
     } else {
       console.log('Retrieved ' + results.length + ' restaurants from foursquare')
-      lunchSpots.unshift(results)
+      lunchSpots = results
     }
   })
 }
