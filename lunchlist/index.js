@@ -1,5 +1,5 @@
 var _ = require('lodash')
-//var fs = require('../foursquare')
+var fs = require('../foursquare')
 
 var lunchSpots = []
 

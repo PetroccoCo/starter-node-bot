@@ -22,11 +22,11 @@ var RESTAURANT_CATEGORY = '4d4b7105d754a06374d81259'
 var foursquare = require('node-foursquare')(config)
 
 function searchRestaurants(params, callback) {
-		console.log("searchRestaurants(params, callback) {");
+  console.log("searchRestaurants(params, callback) {");
   params.categoryId = RESTAURANT_CATEGORY
 
   foursquare.Venues.search(LOCATION.lattitude, LOCATION.longitude, null, params, null, function(error, data) {
-		console.log("(error, data) {");
+    console.log("(error, data) {");
     if (error) {
       console.log('Unable to retrieve venues', error)
       callback(error)
@@ -46,7 +46,7 @@ function searchRestaurants(params, callback) {
 }
 
 exports.query = function(query, callback, limit = 5) {
-		console.log("(query, callback, limit = 5) {");
+  console.log("(query, callback, limit = 5) {");
   var params = {
     query: query,
     limit: limit,
@@ -57,7 +57,7 @@ exports.query = function(query, callback, limit = 5) {
 }
 
 exports.list = function(callback) {
-		console.log("(callback) {");
+  console.log("(callback) {");
   var params = {
     limit: 50,
     radius: RADIUS
