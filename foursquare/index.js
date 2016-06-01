@@ -1,4 +1,4 @@
-const config = {
+var config = {
   'secrets' : {
     'clientId' : 'HT3MFIAJOSWFXKFGXPHY5X4CKLKEMQB5QX033NNE0M4LWTO0',
     'clientSecret' : 'BYBWH053TYIAOPIVZZU2F3H0UBV1SEFTFCHT4MGVXCK3C21Y',
@@ -9,20 +9,20 @@ const config = {
   }
 }
 
-const LOCATION = {
+var LOCATION = {
   name: 'Denver,CO',
   lattitude: '39.753298',
   longitude: '-105.003394'
 }
 
-const RADIUS = 1000
-//const FOOD_CATEGORY = '4d4b7105d754a06374d81259'
-const RESTAURANT_CATEGORY = '4d4b7105d754a06374d81259'
+var RADIUS = 1000
+//var FOOD_CATEGORY = '4d4b7105d754a06374d81259'
+var RESTAURANT_CATEGORY = '4d4b7105d754a06374d81259'
 
-const foursquare = require('node-foursquare')(config)
+var foursquare = require('node-foursquare')(config)
 
 exports.query = function(query, callback, limit = 5) {
-  let params = {
+  var params = {
     query: query,
     limit: limit,
     radius: RADIUS
@@ -32,7 +32,7 @@ exports.query = function(query, callback, limit = 5) {
 }
 
 exports.list = function(callback) {
-  let params = {
+  var params = {
     limit: 50,
     radius: RADIUS
   }
@@ -48,10 +48,10 @@ function searchRestaurants(params, callback) {
       console.log('Unable to retrieve venues', error)
       callback(error)
     } else {
-      let venues = data.venues
-      let list = []
+      var venues = data.venues
+      var list = []
 
-      for (let i = 0; i < venues.length; i++) {
+      for (var i = 0; i < venues.length; i++) {
         list.push({
           name: venues[i].name
         })
