@@ -76,6 +76,16 @@ controller.hears('lunch', ['direct_message', 'direct_mention', 'ambient'], funct
       }
     },
     {
+      pattern: /.*(where|address).*/,
+      callback: function(response, convo) {
+        convo.say("Here is the address for "+currentSpot.name+":");
+        convo.say(currentSpot.location.address);
+        convo.say("the cross street is: " + currentSpot.location.crossStreet);
+        convo.repeat();
+        convo.next();
+      }
+    },
+    {
       default: true,
       callback: function(response,convo) {
         convo.say("I didn't understand that...");
