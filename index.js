@@ -1,6 +1,6 @@
 var Botkit = require('botkit')
 var lunchSpots = require('./lunchlist')
-
+var groupLunch = require('./groupLunch')
 
 var token = process.env.SLACK_TOKEN
 
@@ -86,6 +86,40 @@ controller.hears('lunch', ['direct_message', 'direct_mention', 'ambient'], funct
   ]);
   };
   bot.startConversation(message, askSpot);
+});
+
+// ToDo
+controller.hears(['gltodo'], 'direct_message', function(bot,message) {
+  groupLunch.todo(bot,message);
+});
+
+// Start Group Lunch
+controller.hears(['glstart'], 'direct_message', function(bot,message) {
+// start a conversation to handle this response.
+  bot.startConversation(message,function(err,convo) {
+    groupLunch.askPlace(message, convo, controller);
+  })
+});
+
+// Check Available potentials
+controller.hears(['gllist'], 'direct_message', function(bot, message) {
+  bot.startConversation(message, function(err, convo) {
+    groupLunch.listGroup(message, convo, false, controller);
+  })
+});
+
+// Check Available potentials
+controller.hears(['gljoin'], 'direct_message', function(bot, message) {
+  bot.startConversation(message, function(err, convo) {
+    groupLunch.listGroup(message, convo, true, controller);
+  })
+});
+
+// Check Available potentials
+controller.hears(['glcancel'], 'direct_message', function(bot, message) {
+  bot.startConversation(message, function(err, convo) {
+    groupLunch.cancelGroup(message, convo);
+  })
 });
 
 controller.hears('.*', ['direct_message', 'direct_mention'], function (bot, message) {
